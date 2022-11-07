@@ -67,25 +67,33 @@ namespace DesignPatterns
         }
     }
 
+    public sealed class NoLockThreadSafeSingleton
+    {
+        private static readonly NoLockThreadSafeSingleton _instance = new NoLockThreadSafeSingleton();
+
+        static NoLockThreadSafeSingleton() {}
+        private NoLockThreadSafeSingleton() {}
+        
+        public static NoLockThreadSafeSingleton GetInstance()
+        {
+            return _instance;
+        }
+    }
+
     public class Logger 
     {
+        private static readonly Logger _instance = new Logger();
+
+        static Logger() {}
         private Logger() {}
-        private static Logger _instance;
-        private static readonly object _lock = new object();
 
-        public static Logger GetInstance() {
-            if (_instance == null) {
-                lock (_lock)
-                {
-                    if (_instance == null) {
-                        _instance = new Logger();
-                    }
-                }
-            }
-
+        public static Logger GetInstance()
+        {
             return _instance;
         }
 
-        public void LogError(Exception e) {}
+        public void LogError(Exception e) {
+            // ...
+        }
     }
 }
